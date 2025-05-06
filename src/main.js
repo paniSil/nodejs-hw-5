@@ -27,7 +27,13 @@
 const crypto = require('crypto')
 
 function generateHash(input) {
-  return crypto.createHash('sha256').update(input).digest('hex')
+  try {
+    const hash = crypto.createHash('sha256').update(input).digest('hex')
+    return hash
+  } catch (error) {
+    console.error('Сталася помилка:', error)
+    return error
+  }
 }
 
 // console.log(generateHash('Hello, World!'))
@@ -63,7 +69,14 @@ function generateHash(input) {
  */
 
 function generatePasswordHash(password, salt, iterations = 10000, keylen = 64, digest = 'sha512') {
-  return crypto.pbkdf2Sync(password, salt, iterations, keylen, digest).toString('hex')
+  try {
+    const hash = crypto.pbkdf2Sync(password, salt, iterations, keylen, digest).toString('hex')
+    return hash
+  } catch (error) {
+    console.error('Сталася помилка:', error)
+    return error
+  }
+
 }
 
 // Застосування функції
@@ -103,7 +116,13 @@ function generatePasswordHash(password, salt, iterations = 10000, keylen = 64, d
  */
 
 function verifyPassword(inputPassword, storedHash, salt, iterations = 10000, keylen = 64, digest = 'sha512') {
-  return generatePasswordHash(inputPassword, salt, iterations, keylen, digest) === storedHash
+  try {
+    const hash = generatePasswordHash(inputPassword, salt, iterations, keylen, digest) === storedHash
+    return hash
+  } catch (error) {
+    console.error('Сталася помилка:', error)
+    return error
+  }
 }
 
 // Застосування функції
